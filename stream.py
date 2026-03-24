@@ -9,7 +9,8 @@ def generate():
         ret, frame = cap.read()
         if not ret:
             continue
-        _, buffer = cv2.imencode('.jpg', frame)
+        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 60]
+	_, buffer = cv2.imencode('.jpg', frame, encode_param)
         yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
 
 @app.route('/video')
